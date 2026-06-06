@@ -10,7 +10,7 @@ import About from "../pages/About";
 import Developer from "../pages/Developer";
 import Login from "../pages/Login";
 import Signup from "../pages/Signup";
-import NotFound from "../pages/Notfound";
+import NotFound from "../pages/NotFound";
 
 export default function AppRoutes() {
   return (
