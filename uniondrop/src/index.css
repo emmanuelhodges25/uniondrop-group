@@ -1,0 +1,49 @@
+@import "tailwindcss";
+
+:root {
+  --background: #04070f;
+  --card: #0c1220;
+  --border: #1d2b45;
+  --primary: #00e5ff;
+  --secondary: #2563eb;
+}
+
+html,
+body,
+#root {
+  width: 100%;
+  min-height: 100%;
+}
+
+body {
+  background:
+    radial-gradient(circle at top left, #0a1a3d, transparent 40%),
+    radial-gradient(circle at bottom right, #001d33, transparent 40%),
+    #04070f;
+
+  color: white;
+  margin: 0;
+  font-family: Inter, sans-serif;
+  overflow-x: hidden;
+}
+
+* {
+  scroll-behavior: smooth;
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(0, 229, 255, 0.3);
+  border-radius: 10px;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+section {
+  scroll-margin-top: 100px;
+}
