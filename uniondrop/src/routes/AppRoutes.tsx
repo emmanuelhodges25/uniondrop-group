@@ -11,6 +11,8 @@ import Developer from "../pages/Developer";
 import Login from "../pages/Login";
 import Signup from "../pages/Signup";
 import NotFound from "../pages/NotFound";
+import Payments from "../pages/Payments";
+import Request from "../pages/Request";
 
 export default function AppRoutes() {
   return (
@@ -26,6 +28,8 @@ export default function AppRoutes() {
   }
 />
       <Route path="/projects" element={<Projects />} />
+      <Route path="/payments" element={<Payments />} />
+      <Route path="/request" element={<Request />} />
       <Route path="/about" element={<About />} />
       <Route path="/developer" element={<Developer />} />
       <Route path="/login" element={<Login />} />

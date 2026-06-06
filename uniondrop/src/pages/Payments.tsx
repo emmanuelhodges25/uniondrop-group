@@ -1,9 +1,22 @@
-import { useState } from "react";
+import { useMemo, useState } from "react";
+import { useSearchParams } from "react-router-dom";
 
 type Plan = "standard" | "premium" | null;
 
 export default function Payments() {
-  const [selected, setSelected] = useState<Plan>(null);
+  const [searchParams] = useSearchParams();
+
+  // ✅ SAFE: derive value from URL once per render
+  const urlPlan = useMemo(() => {
+    const plan = searchParams.get("plan");
+    if (plan === "standard") return "standard";
+    if (plan === "premium") return "premium";
+    return null;
+  }, [searchParams]);
+
+  // ✅ initialize state safely (NO effect needed)
+  const [selected, setSelected] = useState<Plan>(urlPlan);
+
   const [loading, setLoading] = useState(false);
 
   const handleCheckout = async () => {
@@ -12,44 +25,40 @@ export default function Payments() {
     setLoading(true);
 
     try {
-      const res = await fetch("http://localhost:5000/api/stripe/create-checkout", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          plan: selected,
-        }),
-      });
+      const res = await fetch(
+        "http://localhost:5000/api/stripe/create-checkout",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ plan: selected }),
+        }
+      );
 
       const data = await res.json();
 
-      if (data.url) {
-        window.location.href = data.url; // redirect to Stripe
+      if (data?.url) {
+        window.location.href = data.url;
       }
     } catch (err) {
       console.error(err);
-      alert("Payment failed to initialize.");
+      alert("Payment failed.");
     }
 
     setLoading(false);
   };
 
   return (
-    <div className="min-h-screen bg-black text-white">
+    <div className="min-h-screen bg-black text-white px-4 py-24">
 
-      {/* HEADER */}
-      <section className="py-24 text-center px-4">
-        <h1 className="text-5xl font-black text-cyan-400">
-          Secure Checkout
-        </h1>
-        <p className="text-slate-400 mt-4">
-          Complete your payment securely via Stripe
-        </p>
-      </section>
+      <h1 className="text-5xl font-black text-cyan-400 text-center">
+        Secure Checkout
+      </h1>
 
-      {/* PLANS */}
-      <div className="max-w-5xl mx-auto grid md:grid-cols-2 gap-8 px-4">
+      <p className="text-slate-400 text-center mt-4">
+        Choose your plan and continue to Stripe
+      </p>
+
+      <div className="max-w-5xl mx-auto grid md:grid-cols-2 gap-8 mt-12">
 
         {/* STANDARD */}
         <div
@@ -62,9 +71,6 @@ export default function Payments() {
         >
           <h2 className="text-xl font-bold text-cyan-400">Standard</h2>
           <p className="text-3xl font-black mt-4">$5</p>
-          <p className="text-slate-400 mt-4">
-            Basic digital service execution
-          </p>
         </div>
 
         {/* PREMIUM */}
@@ -78,26 +84,20 @@ export default function Payments() {
         >
           <h2 className="text-xl font-bold text-cyan-400">Premium</h2>
           <p className="text-3xl font-black mt-4">$10</p>
-          <p className="text-slate-400 mt-4">
-            Advanced systems & SaaS builds
-          </p>
         </div>
+
       </div>
 
-      {/* CHECKOUT BUTTON */}
       <div className="text-center mt-12">
         <button
           onClick={handleCheckout}
           disabled={!selected || loading}
-          className={`px-8 py-4 rounded-xl font-bold transition ${
-            selected
-              ? "bg-cyan-500 text-black hover:scale-105"
-              : "bg-slate-800 text-slate-500 cursor-not-allowed"
-          }`}
+          className="px-10 py-4 bg-cyan-500 text-black font-bold rounded-xl"
         >
-          {loading ? "Processing..." : "Proceed to Stripe Checkout"}
+          {loading ? "Redirecting..." : "Proceed to Checkout"}
         </button>
       </div>
+
     </div>
   );
 }
