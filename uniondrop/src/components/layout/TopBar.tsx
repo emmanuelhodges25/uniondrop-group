@@ -1,40 +1,42 @@
-import { useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import logo from "../../assets/images/logo.png";
 
 export default function TopBar() {
   const navigate = useNavigate();
   const location = useLocation();
-  const [open, setOpen] = useState(false);
 
   const isActive = (path: string) => location.pathname === path;
 
   return (
     <header className="fixed top-0 left-0 w-full z-50">
-
       {/* BACKDROP */}
-      <div className="absolute inset-0 bg-black/60 backdrop-blur-2xl border-b border-cyan-500/10" />
+      <div className="absolute inset-0 bg-black/70 backdrop-blur-2xl border-b border-cyan-500/10" />
 
       {/* CONTENT */}
-      <div className="relative flex items-center justify-between px-6 py-4">
+      <div className="relative flex items-center justify-between px-4 md:px-8 py-4">
 
         {/* LOGO */}
         <div
           onClick={() => navigate("/")}
           className="flex items-center gap-3 cursor-pointer"
         >
-          <img src={logo} className="w-9 h-9" />
-          <span className="text-cyan-400 font-bold text-lg tracking-wide">
+          <img
+            src={logo}
+            alt="UnionDrop"
+            className="w-10 h-10 object-contain"
+          />
+
+          <span className="text-cyan-400 font-black text-xl">
             UnionDrop
           </span>
         </div>
 
-        {/* DESKTOP NAV */}
+        {/* DESKTOP NAVIGATION */}
         <nav className="hidden md:flex items-center gap-8 text-sm text-slate-300">
 
           <button
             onClick={() => navigate("/")}
-            className={`hover:text-cyan-400 transition ${
+            className={`transition hover:text-cyan-400 ${
               isActive("/") ? "text-cyan-400" : ""
             }`}
           >
@@ -43,92 +45,79 @@ export default function TopBar() {
 
           <button
             onClick={() =>
-              document.getElementById("services")?.scrollIntoView({ behavior: "smooth" })
+              document
+                .getElementById("services")
+                ?.scrollIntoView({ behavior: "smooth" })
             }
-            className="hover:text-cyan-400 transition"
+            className="transition hover:text-cyan-400"
           >
             Services
           </button>
 
           <button
             onClick={() =>
-              document.getElementById("pricing")?.scrollIntoView({ behavior: "smooth" })
+              document
+                .getElementById("pricing")
+                ?.scrollIntoView({ behavior: "smooth" })
             }
-            className="hover:text-cyan-400 transition"
+            className="transition hover:text-cyan-400"
           >
             Pricing
           </button>
 
           <button
             onClick={() =>
-              document.getElementById("contact")?.scrollIntoView({ behavior: "smooth" })
+              document
+                .getElementById("contact")
+                ?.scrollIntoView({ behavior: "smooth" })
             }
-            className="hover:text-cyan-400 transition"
+            className="transition hover:text-cyan-400"
           >
             Contact
           </button>
-
         </nav>
 
-        {/* ACTION BUTTONS */}
+        {/* DESKTOP ACTIONS */}
         <div className="hidden md:flex gap-3">
 
           <button
             onClick={() => navigate("/login")}
-            className="px-4 py-2 text-sm border border-cyan-500/20 rounded-xl hover:border-cyan-400 transition"
+            className="
+              px-4 py-2
+              rounded-xl
+              border border-cyan-500/20
+              hover:border-cyan-400
+              transition
+            "
           >
             Login
           </button>
 
           <button
             onClick={() => navigate("/signup")}
-            className="px-5 py-2 text-sm bg-cyan-500 text-black rounded-xl font-bold hover:scale-105 transition"
+            className="
+              px-5 py-2
+              rounded-xl
+              bg-cyan-500
+              text-black
+              font-bold
+              hover:scale-105
+              transition
+            "
           >
             Get Started
           </button>
 
         </div>
 
-        {/* MOBILE MENU */}
-        <button
-          onClick={() => setOpen(!open)}
-          className="md:hidden text-cyan-400 text-2xl"
-        >
-          ☰
-        </button>
+        {/* MOBILE */}
+        <div className="md:hidden">
+          <span className="text-xs text-cyan-400 uppercase tracking-widest">
+            Enterprise Platform
+          </span>
+        </div>
 
       </div>
-
-      {/* MOBILE DROPDOWN */}
-      {open && (
-        <div className="md:hidden bg-black/90 backdrop-blur-2xl border-t border-cyan-500/10 px-6 py-6 space-y-4">
-
-          <button onClick={() => { navigate("/"); setOpen(false); }}>
-            Home
-          </button>
-
-          <button onClick={() => { document.getElementById("services")?.scrollIntoView({ behavior: "smooth" }); setOpen(false); }}>
-            Services
-          </button>
-
-          <button onClick={() => { document.getElementById("pricing")?.scrollIntoView({ behavior: "smooth" }); setOpen(false); }}>
-            Pricing
-          </button>
-
-          <button onClick={() => { navigate("/login"); setOpen(false); }}>
-            Login
-          </button>
-
-          <button
-            onClick={() => { navigate("/signup"); setOpen(false); }}
-            className="text-cyan-400 font-bold"
-          >
-            Get Started
-          </button>
-
-        </div>
-      )}
-
     </header>
   );
 }

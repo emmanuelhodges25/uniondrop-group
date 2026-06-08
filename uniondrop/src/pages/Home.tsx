@@ -7,6 +7,7 @@ import ProjectRequest from "../components/sections/ProjectRequest";
 import Footer from "../components/layout/Footer";
 import TopBar from "../components/layout/TopBar";
 import { useNavigate } from "react-router-dom";
+import BottomNav from "../components/layout/BottomNav";
 
 export default function Home() {
   const navigate = useNavigate();
@@ -135,6 +136,7 @@ export default function Home() {
 
         {/* FOOTER */}
         <Footer />
+        <BottomNav />
 
       </main>
     </div>

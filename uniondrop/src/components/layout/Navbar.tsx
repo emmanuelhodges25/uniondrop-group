@@ -1,12 +1,9 @@
-import { useState } from "react";
 import { Link, NavLink } from "react-router-dom";
 import logo from "../../assets/images/logo.png";
 
 export default function Navbar() {
-  const [open, setOpen] = useState(false);
-
   const linkClass = ({ isActive }: { isActive: boolean }) =>
-    `transition duration-300 ${
+    `relative transition duration-300 ${
       isActive
         ? "text-cyan-400 font-semibold"
         : "text-slate-300 hover:text-cyan-400"
@@ -16,24 +13,46 @@ export default function Navbar() {
     <header
       className="
       fixed top-0 left-0 w-full z-50
-      backdrop-blur-xl
-      bg-black/60
+      backdrop-blur-2xl
+      bg-black/70
       border-b border-cyan-500/10
     "
     >
-      <div className="max-w-7xl mx-auto px-4 md:px-6">
+      <div className="max-w-7xl mx-auto px-4 md:px-8">
+
         <div className="flex items-center justify-between h-16">
 
           {/* LOGO */}
-          <Link to="/" className="flex items-center gap-3">
-            <img src={logo} className="w-8 h-8" />
-            <span className="text-cyan-400 font-bold tracking-wide">
+          <Link
+            to="/"
+            className="flex items-center gap-3"
+          >
+            <img
+              src={logo}
+              alt="UnionDrop"
+              className="w-9 h-9 object-contain"
+            />
+
+            <span
+              className="
+              text-cyan-400
+              font-black
+              tracking-wide
+              text-lg
+            "
+            >
               UnionDrop
             </span>
           </Link>
 
           {/* DESKTOP NAV */}
-          <nav className="hidden md:flex items-center gap-6">
+          <nav
+            className="
+            hidden md:flex
+            items-center
+            gap-8
+          "
+          >
             <NavLink to="/" className={linkClass}>
               Home
             </NavLink>
@@ -55,11 +74,21 @@ export default function Navbar() {
             </NavLink>
           </nav>
 
-          {/* RIGHT CTA */}
-          <div className="hidden md:flex items-center gap-3">
+          {/* DESKTOP ACTIONS */}
+          <div
+            className="
+            hidden md:flex
+            items-center
+            gap-3
+          "
+          >
             <Link
               to="/login"
-              className="text-slate-300 hover:text-cyan-400 transition"
+              className="
+                text-slate-300
+                hover:text-cyan-400
+                transition
+              "
             >
               Login
             </Link>
@@ -67,12 +96,12 @@ export default function Navbar() {
             <Link
               to="/signup"
               className="
-                px-4 py-2
+                px-5 py-2
+                rounded-xl
                 bg-cyan-500
                 text-black
-                font-semibold
-                rounded-lg
-                hover:scale-[1.03]
+                font-bold
+                hover:scale-105
                 transition
               "
             >
@@ -80,55 +109,22 @@ export default function Navbar() {
             </Link>
           </div>
 
-          {/* MOBILE BUTTON */}
-          <button
-            onClick={() => setOpen(!open)}
-            className="md:hidden text-cyan-400"
-          >
-            ☰
-          </button>
+          {/* MOBILE STATUS */}
+          <div className="md:hidden">
+            <span
+              className="
+              text-[10px]
+              uppercase
+              tracking-[0.25em]
+              text-cyan-400/80
+            "
+            >
+              Enterprise Platform
+            </span>
+          </div>
+
         </div>
 
-        {/* MOBILE MENU */}
-        {open && (
-          <div className="md:hidden pb-4 space-y-3">
-            <NavLink to="/" className={linkClass}>
-              Home
-            </NavLink>
-
-            <NavLink to="/services" className={linkClass}>
-              Services
-            </NavLink>
-
-            <NavLink to="/about" className={linkClass}>
-              About
-            </NavLink>
-
-            <NavLink to="/developer" className={linkClass}>
-              Developer
-            </NavLink>
-
-            <NavLink to="/dashboard" className={linkClass}>
-              Dashboard
-            </NavLink>
-
-            <div className="pt-3 flex flex-col gap-2">
-              <Link
-                to="/login"
-                className="text-slate-300 hover:text-cyan-400"
-              >
-                Login
-              </Link>
-
-              <Link
-                to="/signup"
-                className="bg-cyan-500 text-black px-4 py-2 rounded-lg text-center"
-              >
-                Get Started
-              </Link>
-            </div>
-          </div>
-        )}
       </div>
     </header>
   );
